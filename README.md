@@ -1,2 +1,1 @@
-# ScanEcosystem
-The Scan Ecosystem 
+Page for Kennedy Applied Sciences, Inc.
