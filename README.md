@@ -1,3 +1,1 @@
-# ScanEcosystem
-The Scan Ecosystem 
-https://ilevytate.github.io/ScanEcosystem/
+Page for Kennedy Applied Sciences, Inc.
