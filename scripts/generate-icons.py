@@ -48,19 +48,56 @@ def find_source() -> Path | None:
     return None
 
 
-def load_master(size: int = 1024) -> Image.Image:
-    """Return a square RGBA master at `size` px."""
+def load_source() -> Image.Image | None:
     src = find_source()
-    if src is not None:
-        print(f"  using source: {src.relative_to(ROOT)}")
-        img = Image.open(src).convert("RGBA")
-        w, h = img.size
-        side = max(w, h)
-        canvas = Image.new("RGBA", (side, side), BG)
-        canvas.paste(img, ((side - w) // 2, (side - h) // 2), img if img.mode == "RGBA" else None)
-        return canvas.resize((size, size), Image.LANCZOS)
-    print("  no source PNG found at assets/logo-source.* — drawing procedural fallback")
-    return draw_procedural(size)
+    if src is None:
+        return None
+    print(f"  using source: {src.relative_to(ROOT)}")
+    return Image.open(src).convert("RGBA")
+
+
+def to_square(img: Image.Image, size: int) -> Image.Image:
+    w, h = img.size
+    side = max(w, h)
+    canvas = Image.new("RGBA", (side, side), BG)
+    canvas.paste(img, ((side - w) // 2, (side - h) // 2), img if img.mode == "RGBA" else None)
+    return canvas.resize((size, size), Image.LANCZOS)
+
+
+def crop_mark(img: Image.Image) -> Image.Image:
+    """Auto-crop to non-background pixels, then if the result is taller than
+    wide (logo + wordmark layout), keep only the top square so small icons
+    render the bird mark cleanly."""
+    rgb = img.convert("RGB")
+    luma = rgb.convert("L")
+    bbox = None
+    for thresh in (40, 60, 90):
+        mask = luma.point(lambda p, t=thresh: 255 if p > t else 0)
+        bbox = mask.getbbox()
+        if bbox:
+            break
+    if not bbox:
+        return img
+    x0, y0, x1, y1 = bbox
+    pad = int(0.04 * max(x1 - x0, y1 - y0))
+    x0 = max(0, x0 - pad); y0 = max(0, y0 - pad)
+    x1 = min(img.size[0], x1 + pad); y1 = min(img.size[1], y1 + pad)
+    cropped = img.crop((x0, y0, x1, y1))
+    cw, ch = cropped.size
+    if ch > cw * 1.15:
+        cropped = cropped.crop((0, 0, cw, cw))
+    return cropped
+
+
+def load_master(size: int = 1024, mark_only: bool = False) -> Image.Image:
+    """Return a square RGBA master at `size` px. mark_only crops to the bird."""
+    src = load_source()
+    if src is None:
+        print("  no source PNG found at assets/logo-source.* — drawing procedural fallback")
+        return draw_procedural(size)
+    if mark_only:
+        src = crop_mark(src)
+    return to_square(src, size)
 
 
 def draw_procedural(size: int) -> Image.Image:
@@ -164,66 +201,63 @@ def find_font(preferred: list[str], size: int) -> ImageFont.FreeTypeFont | Image
     return ImageFont.load_default()
 
 
-def export_og(master: Image.Image) -> None:
-    """1200x630 Open Graph image: mark on left, wordmark + tagline on right."""
+def export_og(full_logo: Image.Image) -> None:
+    """1200x630 Open Graph: full logo on left (has wordmark built in),
+    tagline + URL on right."""
     W, H = 1200, 630
     img = Image.new("RGBA", (W, H), BG)
     d = ImageDraw.Draw(img, "RGBA")
 
     for y in range(H):
-        a = int(28 * (1 - y / H))
+        a = int(32 * (1 - y / H))
         d.line([(0, y), (W, y)], fill=(200, 121, 65, a))
 
-    mark_size = 360
-    mark = master.resize((mark_size, mark_size), Image.LANCZOS)
-    img.paste(mark, (90, (H - mark_size) // 2), mark)
+    logo_size = 520
+    logo = full_logo.resize((logo_size, logo_size), Image.LANCZOS)
+    img.paste(logo, (40, (H - logo_size) // 2), logo)
 
-    text_x = 90 + mark_size + 60
-    title_font = find_font([], 76)
-    sub_font = find_font([], 30)
-    tag_font = find_font([], 22)
+    text_x = 40 + logo_size + 40
+    tag_font = find_font([], 42)
+    sub_font = find_font([], 24)
+    url_font = find_font([], 20)
 
-    d.text((text_x, 200), "Kennedy", font=title_font, fill=ORANGE)
-    d.text((text_x, 290), "Applied Sciences", font=title_font, fill=ASH)
+    d.line([(text_x, 240), (text_x + 56, 240)], fill=ORANGE, width=3)
+    d.text((text_x, 268), "Intelligence", font=tag_font, fill=ASH)
+    d.text((text_x, 316), "applied.", font=tag_font, fill=ORANGE)
+    d.text((text_x, 364), "Privacy", font=tag_font, fill=ASH)
+    d.text((text_x, 412), "prioritized.", font=tag_font, fill=ORANGE)
     d.text(
-        (text_x, 400),
-        "Intelligence applied. Privacy prioritized.",
+        (text_x, 478),
+        "Private AI for high-trust organizations.",
         font=sub_font,
-        fill=(212, 209, 204, 255),
-    )
-    d.text(
-        (text_x, 450),
-        "Private AI systems and consulting for high-trust organizations.",
-        font=tag_font,
         fill=(138, 138, 138, 255),
     )
-
-    d.line([(text_x, 380), (text_x + 60, 380)], fill=ORANGE, width=2)
+    d.text(
+        (text_x, 530),
+        "kennedyappliedsciences.com",
+        font=url_font,
+        fill=(212, 209, 204, 255),
+    )
 
     img.convert("RGB").save(OUT / "og-image.png", "PNG", optimize=True)
     print(f"  → {(OUT / 'og-image.png').relative_to(ROOT)}")
 
 
-def export_og_square(master: Image.Image) -> None:
+def export_og_square(full_logo: Image.Image) -> None:
+    """1080x1080 square share — centered full logo, tagline below."""
     S = 1080
     img = Image.new("RGBA", (S, S), BG)
-    mark_size = 620
-    mark = master.resize((mark_size, mark_size), Image.LANCZOS)
-    img.paste(mark, ((S - mark_size) // 2, 140), mark)
+
+    logo_size = 820
+    logo = full_logo.resize((logo_size, logo_size), Image.LANCZOS)
+    img.paste(logo, ((S - logo_size) // 2, 70), logo)
 
     d = ImageDraw.Draw(img, "RGBA")
-    title_font = find_font([], 72)
-    sub_font = find_font([], 28)
-
-    title = "Kennedy Applied Sciences"
-    bbox = d.textbbox((0, 0), title, font=title_font)
-    tw = bbox[2] - bbox[0]
-    d.text(((S - tw) // 2, 820), title, font=title_font, fill=ASH)
-
+    sub_font = find_font([], 32)
     sub = "Intelligence applied. Privacy prioritized."
     bbox = d.textbbox((0, 0), sub, font=sub_font)
     sw = bbox[2] - bbox[0]
-    d.text(((S - sw) // 2, 920), sub, font=sub_font, fill=ORANGE)
+    d.text(((S - sw) // 2, 960), sub, font=sub_font, fill=ORANGE)
 
     img.convert("RGB").save(OUT / "og-square.png", "PNG", optimize=True)
     print(f"  → {(OUT / 'og-square.png').relative_to(ROOT)}")
@@ -231,20 +265,23 @@ def export_og_square(master: Image.Image) -> None:
 
 def main() -> int:
     print("Generating icons…")
-    master = load_master(1024)
+    print("· mark-only master (for small icons / favicon / app icons):")
+    mark = load_master(1024, mark_only=True)
+    print("· full-logo master (for OG / social / square share):")
+    full = load_master(1024, mark_only=False)
 
-    export_png(master, 16, "favicon-16.png")
-    export_png(master, 32, "favicon-32.png")
-    export_png(master, 48, "favicon-48.png")
-    export_png(master, 96, "favicon-96.png")
-    export_png(master, 180, "apple-touch-icon.png")
-    export_png(master, 192, "android-chrome-192.png")
-    export_png(master, 512, "android-chrome-512.png")
-    export_png(master, 150, "mstile-150.png")
-    export_ico(master)
-    export_maskable(master)
-    export_og(master)
-    export_og_square(master)
+    export_png(mark, 16, "favicon-16.png")
+    export_png(mark, 32, "favicon-32.png")
+    export_png(mark, 48, "favicon-48.png")
+    export_png(mark, 96, "favicon-96.png")
+    export_png(mark, 180, "apple-touch-icon.png")
+    export_png(mark, 192, "android-chrome-192.png")
+    export_png(mark, 512, "android-chrome-512.png")
+    export_png(mark, 150, "mstile-150.png")
+    export_ico(mark)
+    export_maskable(mark)
+    export_og(full)
+    export_og_square(full)
     print("Done.")
     return 0
 
