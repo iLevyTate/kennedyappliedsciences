@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Kennedy Applied Sciences mark">
+  <title>Kennedy Applied Sciences</title>
+  <rect width="512" height="512" fill="#0C0C0C"/>
+  <!-- Two stylized cranes in flight: gray descending, orange ascending. Brush-stroke feel. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Gray crane: wing sweeps from lower-left up to top-right; head/beak descends right -->
+    <path d="M70 360
+             C 180 240, 300 130, 460 70
+             L 430 95
+             C 320 175, 250 230, 200 280
+             Z"
+          fill="#7A7A7A"/>
+    <path d="M200 280 C 260 250, 330 215, 430 95"
+          stroke="#7A7A7A" stroke-width="5" fill="none"/>
+
+    <!-- Orange crane: wing arcs up-left, body extends down-right with long curved neck and beak -->
+    <path d="M90 180
+             C 170 200, 240 240, 290 280
+             C 340 320, 380 360, 420 410
+             L 395 405
+             C 350 380, 300 350, 260 320
+             C 200 280, 150 240, 90 180
+             Z"
+          fill="#C87941"/>
+    <!-- Curved neck flowing from body down-right to beak tip -->
+    <path d="M285 280
+             C 320 310, 360 350, 405 395
+             L 455 425"
+          stroke="#C87941" stroke-width="8" fill="none"/>
+    <!-- Beak tip cap -->
+    <path d="M448 420 L 470 432 L 452 426 Z" fill="#C87941"/>
+    <!-- Eye/head accent -->
+    <circle cx="405" cy="395" r="5" fill="#C87941"/>
+  </g>
+</svg>
