@@ -1,1 +1,0 @@
-Page for Kennedy Applied Sciences, Inc.
