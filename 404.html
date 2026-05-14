@@ -14,6 +14,9 @@
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,500&display=optional" rel="stylesheet">
 <style>
 :root { --ob:#0C0C0C; --cu:#C87941; --cul:#DDA36A; --ash:#F8F7F5; --tg:#8A8A8A; --tgd:#5A5A5A; --rule:rgba(255,255,255,0.08); }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -22,8 +25,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:radial-gradient(1200p
 main{max-width:560px;text-align:center}
 .mark{width:96px;height:96px;margin:0 auto 28px;display:block}
 .code{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--cu);margin-bottom:16px}
-h1{font-size:clamp(34px,5vw,52px);font-weight:500;letter-spacing:-0.025em;line-height:1.1;margin-bottom:18px}
-h1 .cu{color:var(--cu)}
+h1{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;font-size:clamp(36px,5vw,54px);font-weight:500;letter-spacing:-0.022em;line-height:1.04;margin-bottom:18px}
+h1 .cu{color:var(--cu);font-style:italic}
 p{color:var(--tg);font-size:16px;margin-bottom:32px;text-wrap:balance}
 .btn{display:inline-block;background:var(--cu);color:var(--ob);font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:14px 28px;border-radius:10px;text-decoration:none;transition:background .25s, transform .25s, box-shadow .25s}
 .btn:hover{background:var(--cul);transform:translateY(-1px);box-shadow:0 14px 32px rgba(200,121,65,0.26)}
