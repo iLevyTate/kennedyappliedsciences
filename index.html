@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <meta name="format-detection" content="telephone=no">
-<title>K · Kennedy Applied Sciences</title>
+<title>Kennedy Applied Sciences | Intelligence Applied. Privacy Prioritized.</title>
 <meta name="description" content="Private AI systems and consulting for high-trust organizations that need sensitive data handled locally, not routed through public cloud services.">
 <meta name="keywords" content="private AI, local AI, on-premise AI, privacy-preserving AI, defense AI, healthcare AI, HIPAA-aligned AI, regulated industries, cognitive augmentation, neuromorphic computing, StratoSort">
 <meta name="author" content="Kennedy Applied Sciences, Inc.">
@@ -14,13 +14,19 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:; manifest-src 'self'">
 <link rel="canonical" href="https://www.kennedyappliedsciences.com/">
+<link rel="preload" as="image" href="/assets/logo-mark.png" fetchpriority="high">
 
 <!-- Favicons / app icons -->
-<link rel="icon" type="image/svg+xml" href="/assets/icons/k.svg">
 <link rel="icon" href="/assets/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="msapplication-TileColor" content="#0C0C0C">
+<meta name="msapplication-TileImage" content="/assets/icons/mstile-150.png">
+<meta name="msapplication-config" content="/browserconfig.xml">
 <meta name="application-name" content="Kennedy Applied Sciences">
 <meta name="apple-mobile-web-app-title" content="Kennedy Applied Sciences">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -232,7 +238,10 @@ body::after { content:none; }
 nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:24px 0; transition:padding 0.35s var(--snappy), background 0.35s var(--e), border-color 0.35s var(--e), box-shadow 0.35s var(--e); }
 nav.scrolled { padding:14px 0; background:rgba(12,12,12,0.96); border-bottom:1px solid var(--rule); box-shadow:var(--shadow-1); }
 .ni { max-width:var(--content-max); margin:0 auto; padding:0 48px; display:flex; justify-content:space-between; align-items:center; }
-.lo { display:flex; align-items:center; text-decoration:none; color:var(--ash); }
+.lo { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ash); }
+.lo-k { width:34px; height:34px; border-radius:var(--r1); display:grid; place-items:center; transition:transform 0.3s var(--snappy), box-shadow 0.3s var(--e); background:transparent; overflow:hidden; }
+.lo-k img { width:100%; height:100%; display:block; }
+.lo:hover .lo-k { transform:translateY(-1px); box-shadow:0 0 18px var(--glow-cu); }
 .lo-t { font-size:11px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--tg); }
 .lo-t span { color:var(--ash); }
 .nr { display:flex; gap:40px; align-items:center; list-style:none; }
@@ -390,6 +399,7 @@ footer { padding:48px 0; border-top:1px solid var(--rule); }
 <nav id="nav">
   <div class="ni">
     <a href="#" class="lo" aria-label="Kennedy Applied Sciences home">
+      <div class="lo-k"><img src="/assets/logo-mark.png" alt="" width="34" height="34" decoding="async"></div>
       <div class="lo-t"><span>Kennedy</span> Applied Sciences</div>
     </a>
     <ul class="nr">
