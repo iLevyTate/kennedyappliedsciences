@@ -170,7 +170,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400&display=optional" rel="stylesheet">
 <style>
 :root {
   --content-max: 1240px;
@@ -192,6 +192,7 @@
   --shadow-card: 0 12px 36px rgba(0,0,0,0.24);
   --shadow-cta: 0 14px 32px rgba(200,121,65,0.26);
   --f: 'DM Sans', system-ui, sans-serif;
+  --fd: 'Fraunces', Georgia, 'DM Sans', serif;
   --m: 'JetBrains Mono', monospace;
   --e: cubic-bezier(0.25, 0.1, 0.25, 1);
   --spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -256,9 +257,11 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .has-reveal .rv { opacity:0; transform:translateY(20px); transition:opacity 0.8s var(--spring), transform 0.8s var(--spring); }
 .has-reveal .rv.in { opacity:1; transform:none; }
 
-.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:0 48px; max-width:var(--content-max); margin:0 auto; }
-.hero-h { font-size:clamp(40px, 6vw, 64px); font-weight:500; line-height:1.04; letter-spacing:-0.038em; color:var(--ash); margin-bottom:var(--s5); max-width:820px; text-wrap:balance; min-height:2.1em; }
-.hero-h .cu { color:var(--cu); }
+.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:0 48px; max-width:var(--content-max); margin:0 auto; position:relative; }
+.hero-mark { position:absolute; top:50%; right:-6%; transform:translateY(-50%); width:clamp(420px, 50vw, 720px); aspect-ratio:1; background:url('/assets/logo-mark.png') no-repeat center / contain; opacity:0.055; pointer-events:none; z-index:0; }
+.hero > * { position:relative; z-index:1; }
+.hero-h { font-family:var(--fd); font-optical-sizing:auto; font-size:clamp(44px, 6.4vw, 72px); font-weight:500; line-height:1.02; letter-spacing:-0.028em; color:var(--ash); margin-bottom:var(--s5); max-width:880px; text-wrap:balance; min-height:2.1em; }
+.hero-h .cu { color:var(--cu); font-style:italic; font-weight:500; }
 .hero-sub { font-size:clamp(17px, 1.28vw, 20px); color:var(--ashd); max-width:620px; line-height:1.7; margin-bottom:var(--s6); text-wrap:balance; }
 .hero-cta { display:flex; gap:var(--s3); align-items:center; flex-wrap:wrap; }
 .has-reveal .hero-h, .has-reveal .hero-sub, .has-reveal .hero-cta { opacity:0; transform:translateY(16px); transition:opacity 0.9s var(--spring), transform 0.9s var(--spring); }
@@ -359,12 +362,14 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
   .mn { padding:80px 24px; }
   .oc-link, .rc-lk { min-height:44px; display:inline-flex; align-items:center; }
 }
+@media (max-width:900px) { .hero-mark { opacity:0.04; right:-12%; width:min(80vw, 520px); } }
 @media (max-width:600px) {
   .vg, .rg { grid-template-columns:1fr; }
-  .hero-h { font-size:clamp(34px, 10vw, 46px); min-height:2.2em; }
+  .hero-h { font-size:clamp(36px, 10vw, 48px); min-height:2.2em; }
   .hero-cta { flex-direction:column; align-items:stretch; }
   .btn { justify-content:center; }
   .about-text p, .ct-link-text { max-width:100%; }
+  .hero-mark { opacity:0.035; right:-25%; }
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   @media (min-width:901px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
@@ -416,6 +421,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
 
 <main id="main">
 <section class="hero">
+  <div class="hero-mark" aria-hidden="true"></div>
   <h1 class="hero-h">Intelligence <span class="cu">applied.</span><br>Privacy prioritized.</h1>
   <p class="hero-sub">Private AI systems and consulting for high-trust organizations that need sensitive data handled locally, not routed through public cloud services.</p>
   <div class="hero-cta">
