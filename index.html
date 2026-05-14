@@ -226,7 +226,7 @@ body {
 }
 body::after { content:none; }
 
-#progress { position:fixed; top:0; left:0; height:2px; width:100%; background:linear-gradient(90deg, var(--cu), var(--cul)); transform-origin:left; transform:scaleX(0); z-index:1000; opacity:0.85; }
+#progress { position:fixed; top:0; left:0; height:2px; width:100%; background:linear-gradient(90deg, var(--cu), var(--cul)); transform-origin:left; transform:scaleX(0); z-index:1000; opacity:0.85; will-change:transform; }
 
 nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:22px 0; transition:padding 0.4s var(--snappy), background 0.4s var(--e), border-color 0.4s var(--e), box-shadow 0.4s var(--e); }
 nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px solid var(--rule); box-shadow:var(--shadow-1); }
@@ -250,7 +250,6 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .w { max-width:var(--content-max); margin:0 auto; padding:0 48px; }
 .section { padding:clamp(84px, 9vw, 124px) 0; }
 .section-alt { background:var(--cb); }
-.section, footer { content-visibility:auto; contain-intrinsic-size:1px 900px; }
 
 .overline { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--cu); margin-bottom:22px; opacity:0.95; }
 
@@ -258,7 +257,7 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .has-reveal .rv.in { opacity:1; transform:none; }
 
 .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:0 48px; max-width:var(--content-max); margin:0 auto; position:relative; }
-.hero-mark { position:absolute; top:50%; right:-6%; transform:translateY(-50%); width:clamp(420px, 50vw, 720px); aspect-ratio:1; background:url('/assets/logo-mark.png') no-repeat center / contain; opacity:0.055; pointer-events:none; z-index:0; }
+.hero-mark { position:absolute; top:50%; right:-6%; transform:translate3d(0,-50%,0); width:clamp(420px, 50vw, 720px); aspect-ratio:1; background:url('/assets/logo-mark.png') no-repeat center / contain; opacity:0.055; pointer-events:none; z-index:0; will-change:transform; }
 .hero > * { position:relative; z-index:1; }
 .hero-h { font-family:var(--fd); font-optical-sizing:auto; font-size:clamp(44px, 6.4vw, 72px); font-weight:500; line-height:1.02; letter-spacing:-0.028em; color:var(--ash); margin-bottom:var(--s5); max-width:880px; text-wrap:balance; min-height:2.1em; }
 .hero-h .cu { color:var(--cu); font-style:italic; font-weight:500; }
@@ -372,10 +371,10 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
   .hero-mark { opacity:0.035; right:-25%; }
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  @media (min-width:901px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  @media (min-width:1100px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
     nav.scrolled {
-      backdrop-filter:blur(10px) saturate(1.05);
-      -webkit-backdrop-filter:blur(10px) saturate(1.05);
+      backdrop-filter:blur(6px) saturate(1.05);
+      -webkit-backdrop-filter:blur(6px) saturate(1.05);
     }
   }
 }
@@ -573,13 +572,19 @@ if (yr) yr.textContent = new Date().getFullYear();
 const pr = document.getElementById('progress');
 const nav = document.getElementById('nav');
 
+let scrollMax = 0;
+function measureScroll() {
+  scrollMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+}
+measureScroll();
+window.addEventListener('resize', measureScroll, { passive: true });
+window.addEventListener('load', measureScroll);
+
 let isTicking = false;
 let isNavScrolled = false;
 function syncScrollUI() {
   const top = window.scrollY || document.documentElement.scrollTop;
-  const doc = document.documentElement;
-  const max = doc.scrollHeight - window.innerHeight;
-  const progress = max > 0 ? top / max : 0;
+  const progress = scrollMax > 0 ? top / scrollMax : 0;
   pr.style.transform = `scaleX(${progress})`;
 
   const shouldScroll = top > 48;
