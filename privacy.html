@@ -25,9 +25,11 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:radial-gradient(1200p
 a:focus-visible{outline:1px solid var(--cu);outline-offset:3px}
 .bar{padding:24px 0;border-bottom:1px solid var(--rule)}
 .w{max-width:760px;margin:0 auto;padding:0 28px}
-.lo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--ash)}
-.lo img{width:32px;height:32px;border-radius:6px;display:block}
-.lo-t{font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--tg)}
+.lo{display:inline-flex;align-items:center;gap:14px;text-decoration:none;color:var(--ash);transition:opacity .25s ease}
+.lo:hover{opacity:.92}
+.lo img{width:36px;height:36px;display:block;transition:filter .35s ease}
+.lo:hover img{filter:drop-shadow(0 0 12px rgba(200,121,65,0.18))}
+.lo-t{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--tg)}
 .lo-t span{color:var(--ash)}
 main{flex:1;padding:64px 0 96px}
 .crumb{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cu);margin-bottom:16px}
@@ -71,7 +73,7 @@ footer{padding:32px 0;border-top:1px solid var(--rule);font-size:11px;color:var(
   <h2>What we collect</h2>
   <ul>
     <li><strong>Nothing in the browser.</strong> The site sets no cookies, runs no analytics, and does not embed third-party trackers or pixels.</li>
-    <li><strong>Email you send us.</strong> If you contact us via <a href="mailto:kennedyappliedsciences@gmail.com">kennedyappliedsciences@gmail.com</a>, we receive whatever you include in the message. We use that information only to respond and to evaluate fit for engagement.</li>
+    <li><strong>Email you send us.</strong> If you contact us via <a href="mailto:contact@kennedyappliedsciences.com">contact@kennedyappliedsciences.com</a>, we receive whatever you include in the message. We use that information only to respond and to evaluate fit for engagement.</li>
     <li><strong>Hosting logs.</strong> The site is served by GitHub Pages, which keeps standard request logs (IP address, user agent, timestamp) for operational and security purposes. We do not access or process those logs.</li>
     <li><strong>Web fonts.</strong> We load DM Sans and JetBrains Mono from Google Fonts. Google&rsquo;s servers see your IP address as part of normal HTTP requests. See <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener">Google&rsquo;s font privacy notice</a>.</li>
   </ul>
@@ -84,10 +86,10 @@ footer{padding:32px 0;border-top:1px solid var(--rule);font-size:11px;color:var(
   </ul>
 
   <h2>How long we keep things</h2>
-  <p>Email correspondence is retained for as long as it is operationally useful to maintain the conversation or contractual relationship. You can ask us to delete email records by writing to <a href="mailto:kennedyappliedsciences@gmail.com">kennedyappliedsciences@gmail.com</a>.</p>
+  <p>Email correspondence is retained for as long as it is operationally useful to maintain the conversation or contractual relationship. You can ask us to delete email records by writing to <a href="mailto:contact@kennedyappliedsciences.com">contact@kennedyappliedsciences.com</a>.</p>
 
   <h2>Your rights</h2>
-  <p>Depending on where you live, you may have rights to access, correct, delete, or restrict processing of personal information we hold about you. Send requests to <a href="mailto:kennedyappliedsciences@gmail.com">kennedyappliedsciences@gmail.com</a> and we will respond within a reasonable timeframe.</p>
+  <p>Depending on where you live, you may have rights to access, correct, delete, or restrict processing of personal information we hold about you. Send requests to <a href="mailto:contact@kennedyappliedsciences.com">contact@kennedyappliedsciences.com</a> and we will respond within a reasonable timeframe.</p>
 
   <h2>Children</h2>
   <p>This site is not directed to children under 13, and we do not knowingly collect information from children.</p>
@@ -96,7 +98,7 @@ footer{padding:32px 0;border-top:1px solid var(--rule);font-size:11px;color:var(
   <p>We may update this policy as the site or research practice evolves. Material changes will be reflected in the &ldquo;Last updated&rdquo; date above.</p>
 
   <h2>Contact</h2>
-  <p>Questions about privacy: <a href="mailto:kennedyappliedsciences@gmail.com">kennedyappliedsciences@gmail.com</a>.</p>
+  <p>Questions about privacy: <a href="mailto:contact@kennedyappliedsciences.com">contact@kennedyappliedsciences.com</a>.</p>
 
   <div class="note">This page is a plain-language summary, not legal advice. For engagements involving regulated data (healthcare, financial, defense, legal), data handling is defined in the applicable contract, BAA, DPA, or equivalent agreement, not in this notice.</div>
 </div></main>
@@ -107,7 +109,6 @@ footer{padding:32px 0;border-top:1px solid var(--rule);font-size:11px;color:var(
     <div>
       <a href="/">Home</a>
       <a href="/terms.html">Terms</a>
-      <a href="mailto:kennedyappliedsciences@gmail.com">Email</a>
     </div>
   </div>
 </div></footer>
