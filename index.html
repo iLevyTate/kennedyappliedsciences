@@ -207,6 +207,9 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .lo-t { font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--tg); transition:color 0.3s var(--e); }
 .lo-t span { color:var(--ash); }
 .lo:hover .lo-t { color:var(--ashd); }
+.nav-status { display:none; align-items:center; gap:9px; font-family:var(--m); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--tg); padding:7px 15px; border:1px solid var(--rule); border-radius:999px; background:rgba(255,255,255,0.02); white-space:nowrap; }
+.nav-status .ns-dot { width:6px; height:6px; border-radius:50%; background:var(--cu); box-shadow:0 0 0 3px rgba(200,121,65,0.14); flex-shrink:0; }
+@media (min-width:1120px) { .nav-status { display:inline-flex; } }
 .nr { display:flex; gap:36px; align-items:center; list-style:none; }
 .nr a { font-size:11px; font-weight:500; color:var(--tg); text-decoration:none; letter-spacing:0.07em; text-transform:uppercase; transition:color 0.25s var(--e), opacity 0.25s var(--e); padding:8px 0; position:relative; opacity:0.85; }
 .nr a::after { content:''; position:absolute; bottom:4px; left:0; width:0; height:1px; background:var(--cu); transition:width 0.35s var(--spring); }
@@ -383,6 +386,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <div class="lo-k"><img src="/assets/logo-mark.png" alt="" width="40" height="40" decoding="async"></div>
       <div class="lo-t"><span>Kennedy Applied Sciences</span> Research Group</div>
     </a>
+    <div class="nav-status" aria-hidden="true"><span class="ns-dot"></span>Self-funded research practice</div>
     <ul class="nr">
       <li><a href="#research">Research</a></li>
       <li><a href="#products">Products</a></li>
