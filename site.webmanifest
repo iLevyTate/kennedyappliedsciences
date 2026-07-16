@@ -1,7 +1,7 @@
 {
-  "name": "Kennedy Applied Sciences",
-  "short_name": "Kennedy AS",
-  "description": "Private AI systems and consulting for high-trust organizations.",
+  "name": "Kennedy Applied Sciences Research Group",
+  "short_name": "KAS Research",
+  "description": "Independent applied AI research practice. Select products commercialized from our lab.",
   "start_url": "/",
   "scope": "/",
   "id": "/",
@@ -11,7 +11,7 @@
   "theme_color": "#0C0C0C",
   "lang": "en-US",
   "dir": "ltr",
-  "categories": ["business", "productivity", "technology"],
+  "categories": ["education", "productivity", "technology"],
   "icons": [
     { "src": "/assets/icons/android-chrome-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/assets/icons/android-chrome-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
