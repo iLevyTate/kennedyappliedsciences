@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('has-reveal');}catch(e){}</script>
 <meta name="format-detection" content="telephone=no">
 <title>Kennedy Applied Sciences Research Group | Independent Applied AI Research</title>
 <meta name="description" content="Kennedy Applied Sciences Research Group is a self-funded, independent applied AI research practice. Select tools developed through our research are commercialized as products for regulated, privacy-sensitive, and high-stakes environments.">
@@ -600,7 +601,6 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
 
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion) document.documentElement.classList.add('has-reveal');
 
 const yr = document.getElementById('yr');
 if (yr) yr.textContent = new Date().getFullYear();
