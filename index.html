@@ -243,6 +243,18 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .has-reveal .hero-sub.in { transition-delay:0.12s; }
 .has-reveal .hero-cta.in { transition-delay:0.22s; }
 
+/* ── HERO LATTICE ── */
+.hero { position:relative; }
+.hero-visual { position:absolute; top:50%; right:0; z-index:-1; width:min(44vw, 560px); aspect-ratio:1/1.08;
+  transform:translateY(-50%) translate(var(--px, 0px), var(--py, 0px));
+  transition:opacity 1.8s var(--e) 0.5s, transform 0.9s var(--e);
+  opacity:0; pointer-events:none;
+  -webkit-mask-image:radial-gradient(closest-side, #000 55%, transparent 98%);
+  mask-image:radial-gradient(closest-side, #000 55%, transparent 98%); }
+.hero-visual.in { opacity:1; }
+.hero-visual canvas { width:100%; height:100%; display:block; }
+@media (max-width:1099px) { .hero-visual { display:none; } }
+
 /* ── BUTTONS ── */
 .btn { font-family:var(--f); font-size:12px; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; padding:17px 32px; border-radius:var(--r2); text-decoration:none; border:1px solid transparent; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:transform 0.3s var(--snappy), box-shadow 0.3s var(--e), background 0.3s var(--e), color 0.3s var(--e), border-color 0.3s var(--e); }
 .btn-p { background:var(--cu); color:var(--ob); box-shadow:0 6px 22px rgba(200,121,65,0.18); }
@@ -410,6 +422,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
 <!-- HERO -->
 <main id="main">
 <section class="hero">
+  <div class="hero-visual" id="lattice" aria-hidden="true"><canvas id="lattice-c"></canvas></div>
   <h1 class="hero-h">Independent applied AI <span class="cu">research.</span></h1>
   <p class="hero-sub">Kennedy Applied Sciences Research Group is a self-funded research practice building intelligent systems for regulated, privacy-sensitive, and high-stakes environments. Select tools developed in our lab are commercialized as products.</p>
   <div class="hero-cta">
@@ -646,7 +659,7 @@ if ('IntersectionObserver' in window) {
 }
 
 requestAnimationFrame(() => {
-  document.querySelectorAll('.hero-h, .hero-sub, .hero-cta').forEach(el => el.classList.add('in'));
+  document.querySelectorAll('.hero-h, .hero-sub, .hero-cta, .hero-visual').forEach(el => el.classList.add('in'));
 });
 
 const hb = document.getElementById('hb');
@@ -679,6 +692,154 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (t) { e.preventDefault(); t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }); }
   });
 });
+
+/* ── HERO LATTICE ── */
+(() => {
+  const wrap = document.getElementById('lattice');
+  const cv = document.getElementById('lattice-c');
+  if (!wrap || !cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d');
+  const LINK = 170, COUNT = 32, TAU = Math.PI * 2;
+  let W = 0, H = 0, nodes = [], pulses = [], raf = 0, running = false, seen = true, tick = 0;
+
+  function size() {
+    const r = wrap.getBoundingClientRect();
+    if (r.width < 10) return false;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return true;
+  }
+
+  function seed() {
+    nodes = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.18, vy: (Math.random() - 0.5) * 0.18,
+      r: 1.1 + Math.random() * 1.5,
+      cu: Math.random() < 0.24,
+      ph: Math.random() * TAU
+    }));
+    pulses = [];
+  }
+
+  function spawnPulse() {
+    for (let i = 0; i < 14; i++) {
+      const a = nodes[Math.random() * COUNT | 0], b = nodes[Math.random() * COUNT | 0];
+      if (a === b) continue;
+      const dx = b.x - a.x, dy = b.y - a.y;
+      if (dx * dx + dy * dy < LINK * LINK * 0.8) {
+        pulses.push({ a, b, p: 0, v: 0.009 + Math.random() * 0.009 });
+        return;
+      }
+    }
+  }
+
+  function frame() {
+    tick++;
+    ctx.clearRect(0, 0, W, H);
+
+    if (!reduceMotion) {
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      }
+    }
+
+    ctx.lineWidth = 1;
+    for (let i = 0; i < COUNT; i++) {
+      for (let j = i + 1; j < COUNT; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
+        if (d2 > LINK * LINK) continue;
+        const o = (1 - Math.sqrt(d2) / LINK) * 0.22;
+        ctx.strokeStyle = 'rgba(200,121,65,' + o.toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+    }
+
+    for (const n of nodes) {
+      const tw = reduceMotion ? 0 : Math.sin(tick * 0.02 + n.ph) * 0.16;
+      if (n.cu) {
+        ctx.fillStyle = 'rgba(221,163,106,0.10)';
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3.4, 0, TAU); ctx.fill();
+        ctx.fillStyle = 'rgba(221,163,106,' + (0.62 + tw).toFixed(3) + ')';
+      } else {
+        ctx.fillStyle = 'rgba(248,247,245,' + (0.42 + tw).toFixed(3) + ')';
+      }
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, TAU); ctx.fill();
+    }
+
+    if (!reduceMotion) {
+      if (tick % 80 === 0 && pulses.length < 4) spawnPulse();
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.p += p.v;
+        if (p.p >= 1) { pulses.splice(i, 1); continue; }
+        const x = p.a.x + (p.b.x - p.a.x) * p.p;
+        const y = p.a.y + (p.b.y - p.a.y) * p.p;
+        const glow = Math.sin(p.p * Math.PI);
+        ctx.fillStyle = 'rgba(221,163,106,' + (0.10 * glow).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(x, y, 7, 0, TAU); ctx.fill();
+        ctx.fillStyle = 'rgba(232,190,138,' + (0.85 * glow).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(x, y, 1.7, 0, TAU); ctx.fill();
+      }
+      if (running) raf = requestAnimationFrame(frame);
+    }
+  }
+
+  function start() {
+    if (running || reduceMotion || !seen || document.hidden) return;
+    if (!W && !size()) return;
+    if (!nodes.length) seed();
+    running = true;
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() { running = false; cancelAnimationFrame(raf); }
+
+  if (size()) seed();
+  if (reduceMotion) {
+    if (W) frame();
+  } else {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(entries => {
+        seen = entries[0].isIntersecting;
+        if (seen) start(); else stop();
+      }, { threshold: 0 }).observe(wrap);
+    }
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+    start();
+
+    let pt = false;
+    window.addEventListener('mousemove', e => {
+      const px = (e.clientX / window.innerWidth - 0.5) * -10;
+      const py = (e.clientY / window.innerHeight - 0.5) * -8;
+      if (!pt) {
+        pt = true;
+        requestAnimationFrame(() => {
+          wrap.style.setProperty('--px', px.toFixed(1) + 'px');
+          wrap.style.setProperty('--py', py.toFixed(1) + 'px');
+          pt = false;
+        });
+      }
+    }, { passive: true });
+  }
+
+  let rt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      stop();
+      W = H = 0; nodes = [];
+      if (size()) {
+        seed();
+        if (reduceMotion) frame(); else start();
+      }
+    }, 150);
+  });
+})();
 
 </script>
 </body>
