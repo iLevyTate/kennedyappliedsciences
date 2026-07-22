@@ -1,0 +1,51 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-gh-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish main to gh-pages (fast-forward, no force-push)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # gh-pages is protected against force-pushes, so mirror main by
+          # committing its tree on top of the current gh-pages tip. That is a
+          # normal fast-forward push, which the branch rule allows.
+          PARENT=""
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch --no-tags origin gh-pages
+            PARENT=$(git rev-parse FETCH_HEAD)
+          fi
+
+          TREE=$(git rev-parse "${GITHUB_SHA}^{tree}")
+
+          if [ -n "$PARENT" ] && [ "$(git rev-parse "${PARENT}^{tree}")" = "$TREE" ]; then
+            echo "gh-pages already matches main; nothing to publish."
+            exit 0
+          fi
+
+          if [ -n "$PARENT" ]; then
+            COMMIT=$(git commit-tree "$TREE" -p "$PARENT" -m "Deploy ${GITHUB_SHA} to gh-pages")
+          else
+            COMMIT=$(git commit-tree "$TREE" -m "Deploy ${GITHUB_SHA} to gh-pages")
+          fi
+
+          git push origin "${COMMIT}:refs/heads/gh-pages"
