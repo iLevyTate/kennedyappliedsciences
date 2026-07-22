@@ -501,7 +501,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <div class="oc-kicker">Privacy-First AI Desktop Application</div>
       <h3 class="oc-title">StratoSort</h3>
       <div class="oc-desc">Four integrated capabilities: semantic search, retrieval-augmented generation, knowledge-graph visualization, and intelligent file routing. Built for defense, healthcare, and legal professionals working with sensitive on-device data. Fully self-contained and ready for air-gapped deployment.</div>
-      <a href="#contact" class="oc-link">Request product brief <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="https://stratosort.com" target="_blank" rel="noopener" class="oc-link">Visit StratoSort <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
     </div>
     <div class="oc rv">
       <div class="oc-kicker">Peer-Reviewed Cognitive AI Framework</div>
@@ -700,7 +700,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   if (!wrap || !cv || !cv.getContext) return;
   const ctx = cv.getContext('2d');
   const LINK = 170, COUNT = 32, TAU = Math.PI * 2;
+  const MLINK = 190, MPUSH = 150;
   let W = 0, H = 0, nodes = [], pulses = [], raf = 0, running = false, seen = true, tick = 0;
+  const mouse = { x: 0, y: 0, on: false };
 
   function size() {
     const r = wrap.getBoundingClientRect();
@@ -742,6 +744,16 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
     if (!reduceMotion) {
       for (const n of nodes) {
+        if (mouse.on) {
+          const dx = n.x - mouse.x, dy = n.y - mouse.y, d2 = dx * dx + dy * dy;
+          if (d2 < MPUSH * MPUSH && d2 > 0.5) {
+            const d = Math.sqrt(d2), f = (1 - d / MPUSH) * 0.09;
+            n.vx += (dx / d) * f; n.vy += (dy / d) * f;
+          }
+        }
+        const sp = n.vx * n.vx + n.vy * n.vy;
+        if (sp > 0.36) { const k = 0.6 / Math.sqrt(sp); n.vx *= k; n.vy *= k; }
+        else if (sp > 0.05) { n.vx *= 0.985; n.vy *= 0.985; }
         n.x += n.vx; n.y += n.vy;
         if (n.x < 0 || n.x > W) n.vx *= -1;
         if (n.y < 0 || n.y > H) n.vy *= -1;
@@ -758,6 +770,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         ctx.strokeStyle = 'rgba(200,121,65,' + o.toFixed(3) + ')';
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
+    }
+
+    if (mouse.on) {
+      for (const n of nodes) {
+        const dx = n.x - mouse.x, dy = n.y - mouse.y, d2 = dx * dx + dy * dy;
+        if (d2 > MLINK * MLINK) continue;
+        const o = (1 - Math.sqrt(d2) / MLINK) * 0.5;
+        ctx.strokeStyle = 'rgba(221,163,106,' + o.toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+      }
+      ctx.fillStyle = 'rgba(221,163,106,0.12)';
+      ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 10, 0, TAU); ctx.fill();
+      ctx.fillStyle = 'rgba(232,190,138,0.90)';
+      ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 2, 0, TAU); ctx.fill();
     }
 
     for (const n of nodes) {
@@ -812,19 +838,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
     start();
 
-    let pt = false;
+    let pt = false, cx = 0, cy = 0;
     window.addEventListener('mousemove', e => {
-      const px = (e.clientX / window.innerWidth - 0.5) * -10;
-      const py = (e.clientY / window.innerHeight - 0.5) * -8;
+      cx = e.clientX; cy = e.clientY;
+      const px = (cx / window.innerWidth - 0.5) * -10;
+      const py = (cy / window.innerHeight - 0.5) * -8;
       if (!pt) {
         pt = true;
         requestAnimationFrame(() => {
           wrap.style.setProperty('--px', px.toFixed(1) + 'px');
           wrap.style.setProperty('--py', py.toFixed(1) + 'px');
+          const r = cv.getBoundingClientRect();
+          if (r.width > 0) {
+            const lx = (cx - r.left) * (W / r.width);
+            const ly = (cy - r.top) * (H / r.height);
+            mouse.x = lx; mouse.y = ly;
+            mouse.on = lx > -MLINK && lx < W + MLINK && ly > -MLINK && ly < H + MLINK;
+            if (mouse.on) start();
+          }
           pt = false;
         });
       }
     }, { passive: true });
+    window.addEventListener('mouseout', e => { if (!e.relatedTarget) mouse.on = false; }, { passive: true });
   }
 
   let rt;
