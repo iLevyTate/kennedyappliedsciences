@@ -280,6 +280,9 @@ nav.scrolled { padding:12px 0; background:rgba(12,12,12,0.92); border-bottom:1px
 .oc-desc { font-size:15px; color:var(--tg); line-height:1.72; flex:1; max-width:56ch; }
 .oc-link { font-size:11px; font-weight:500; color:var(--cu); text-decoration:none; letter-spacing:0.09em; text-transform:uppercase; margin-top:28px; display:inline-flex; align-items:center; gap:8px; align-self:flex-start; opacity:0.7; transition:opacity 0.3s var(--e), gap 0.3s var(--spring); }
 .oc-link:hover { opacity:1; gap:12px; }
+.oc-links { display:flex; flex-wrap:wrap; gap:4px 28px; margin-top:28px; }
+.oc-links .oc-link { margin-top:0; }
+.rc-links { display:flex; flex-wrap:wrap; gap:8px 20px; }
 
 /* ════════ RESEARCH AREAS ════════ */
 .rg { display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--rule); border-radius:var(--r3); overflow:hidden; margin-top:var(--s6); border:1px solid rgba(255,255,255,0.04); }
@@ -404,6 +407,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <li><a href="#research">Research</a></li>
       <li><a href="#products">Products</a></li>
       <li><a href="#publications">Publications</a></li>
+      <li><a href="#explainers">Explainers</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -415,6 +419,7 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
   <a href="#research">Research</a>
   <a href="#products">Products</a>
   <a href="#publications">Publications</a>
+  <a href="#explainers">Explainers</a>
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
 </div>
@@ -487,6 +492,8 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <div class="rc-links" style="margin-top:22px;">
         <a href="https://ilevytate.github.io/ItaSoRL/" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Research log</a>
         <a href="https://github.com/iLevyTate/ItaSoRL" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>GitHub</a>
+        <a href="https://www.youtube.com/watch?v=2YTpgIzLUSE" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Watch the film</a>
+        <a href="https://www.youtube.com/watch?v=CrK3UUi1prM" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Inside the creature's brain</a>
       </div>
     </aside>
   </div>
@@ -501,19 +508,30 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <div class="oc-kicker">Privacy-First AI Desktop Application</div>
       <h3 class="oc-title">StratoSort</h3>
       <div class="oc-desc">Four integrated capabilities: semantic search, retrieval-augmented generation, knowledge-graph visualization, and intelligent file routing. Built for defense, healthcare, and legal professionals working with sensitive on-device data. Fully self-contained and ready for air-gapped deployment.</div>
-      <a href="https://stratosort.com" target="_blank" rel="noopener" class="oc-link">Visit StratoSort <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <div class="oc-links">
+        <a href="https://stratosort.com" target="_blank" rel="noopener" class="oc-link">Visit StratoSort <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=L892jH2s4Z8" target="_blank" rel="noopener" class="oc-link">Watch the overview <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=lhBEJA8OoS8" target="_blank" rel="noopener" class="oc-link">Architecture walkthrough <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=N6zPq_XL2PY" target="_blank" rel="noopener" class="oc-link">Watch El StratoSort <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
     </div>
     <div class="oc rv">
       <div class="oc-kicker">Peer-Reviewed Cognitive AI Framework</div>
       <h3 class="oc-title">SCAN Ecosystem</h3>
       <div class="oc-desc">A published family of research systems: a prefrontal-cortex-aligned cognitive architecture (SCAN), multi-agent expert orchestration with human-in-the-loop alignment (SCANUE), a 36-item psychometric cognitive assessment instrument (SCANAQ), and neuromorphic spiking-transformer computing (STAC).</div>
-      <a href="https://scanerad.com" target="_blank" rel="noopener" class="oc-link">Explore SCAN research <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <div class="oc-links">
+        <a href="https://scanerad.com" target="_blank" rel="noopener" class="oc-link">Explore SCAN research <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://github.com/iLevyTate/SCANUE" target="_blank" rel="noopener" class="oc-link">SCANUE on GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
     </div>
     <div class="oc rv">
       <div class="oc-kicker">CBT-Based Mental Health Reframing Tool</div>
       <h3 class="oc-title">Rephrame</h3>
       <div class="oc-desc">Cognitive behavioral therapy techniques delivered through an accessible app interface for thought pattern recognition, cognitive distortion identification, and guided reframing.</div>
-      <a href="https://rephrame.app" target="_blank" rel="noopener" class="oc-link">Visit Rephrame <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <div class="oc-links">
+        <a href="https://rephrame.app" target="_blank" rel="noopener" class="oc-link">Visit Rephrame <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=jMA5oKLhCJs" target="_blank" rel="noopener" class="oc-link">Watch the walkthrough <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
     </div>
     <div class="oc rv">
       <div class="oc-kicker">Quantitative Algorithmic Trading System</div>
@@ -521,11 +539,44 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <div class="oc-desc">A fully automated, rules-based trading engine for TradingView covering futures, stocks, and crypto, built to take emotion out of the trade. Every setup is qualified through a multi-stage signal process, sized risk-first, and managed to its exit, with prop-firm protections and hands-free webhook execution. Across a roughly 6-year backtest, $2,000 grew to a simulated +7,580% return, about 4&times; buy-and-hold.<br><br>Results are simulated and not predictive. RSSE is a research tool, not financial advice.</div>
       <a href="https://ilevytate.github.io/RSSE/" target="_blank" rel="noopener" class="oc-link">ilevytate.github.io/RSSE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
     </div>
-    <div class="oc oc-wide rv">
+    <div class="oc rv">
       <div class="oc-kicker">Privacy-First Task &amp; Time Manager</div>
       <h3 class="oc-title">ODTA</h3>
       <div class="oc-desc">A privacy-first task and time manager supercharged by on-device ambient AI. Your workload stays on your machine.</div>
-      <a href="https://odta.app" target="_blank" rel="noopener" class="oc-link">Visit ODTA <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <div class="oc-links">
+        <a href="https://odta.app" target="_blank" rel="noopener" class="oc-link">Visit ODTA <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=cDEvo1KQnEg" target="_blank" rel="noopener" class="oc-link">Watch the walkthrough <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
+    </div>
+    <div class="oc oc-wide rv">
+      <div class="oc-kicker">Open-Source Desktop App &middot; Local-First Job Search</div>
+      <h3 class="oc-title">Job Search Desk</h3>
+      <div class="oc-desc">A US job search that runs on your machine. Build a profile once, search major job boards and employer applicant-tracking systems, evaluate each posting for fit, draft a tailored CV and cover letter in LaTeX, run reviewer and ATS checks, and prefill the employer's form. Claude Code is the runtime on your own subscription, and your profile and every application stay in a folder on your computer. Autofill never clicks Submit. Installers for Windows, macOS, and Linux. MIT licensed.</div>
+      <div class="oc-links">
+        <a href="https://github.com/iLevyTate/ai-job-search/releases/latest" target="_blank" rel="noopener" class="oc-link">Download the Desk <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://github.com/iLevyTate/ai-job-search" target="_blank" rel="noopener" class="oc-link">Source on GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=_5W_Uelk9rU" target="_blank" rel="noopener" class="oc-link">Watch the walkthrough <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
+    </div>
+    <div class="oc rv">
+      <div class="oc-kicker">Open-Source Developer Tool</div>
+      <h3 class="oc-title">RepoSense</h3>
+      <div class="oc-desc">Every file becomes a tower and every folder a terrace: a repository assembled into a 3D structure you can fly through, sized by bytes, colored by language, and lit by how recently it changed. Paste a GitHub URL and it renders in the browser with nothing to install.</div>
+      <div class="oc-links">
+        <a href="https://ilevytate.github.io/reposense/" target="_blank" rel="noopener" class="oc-link">Open RepoSense <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://github.com/iLevyTate/reposense" target="_blank" rel="noopener" class="oc-link">Source on GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=lrulNnkLhcA" target="_blank" rel="noopener" class="oc-link">Watch the film <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
+    </div>
+    <div class="oc rv">
+      <div class="oc-kicker">Open-Source Developer Tool</div>
+      <h3 class="oc-title">Sediment</h3>
+      <div class="oc-desc">Type a GitHub repository and watch its history settle as strata. Time runs left to right, each band is a region of the tree, and thickness is the code alive at that moment. Runs in the browser against the GitHub API with no server. MIT licensed.</div>
+      <div class="oc-links">
+        <a href="https://ilevytate.github.io/sediment/" target="_blank" rel="noopener" class="oc-link">Open Sediment <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://github.com/iLevyTate/sediment" target="_blank" rel="noopener" class="oc-link">Source on GitHub <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+        <a href="https://www.youtube.com/watch?v=eTlwnFLM7YQ" target="_blank" rel="noopener" class="oc-link">Watch the film <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      </div>
     </div>
   </div>
 </div></section>
@@ -558,6 +609,49 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
   </div>
 </div></section></div>
 
+<!-- EXPLAINERS -->
+<section class="section" id="explainers" aria-labelledby="explainers-h"><div class="w">
+  <h2 id="explainers-h" class="overline rv">Explainers &amp; Media</h2>
+  <p class="stmt rv" style="font-size:clamp(17px,1.4vw,20px); line-height:1.72; max-width:78ch;">Interactive instruments that make the ideas behind our research <strong>visible and hands-on</strong>, plus walkthrough films of every tool on our YouTube channel.</p>
+  <div class="pub-list">
+    <article class="pub rv">
+      <div class="pub-main">
+        <h3 class="pub-title">Latent Space Learning</h3>
+        <p class="pub-venue">Explainer 01 &middot; How models compress meaning into geometry, and why it powers semantic search</p>
+      </div>
+      <a href="https://benjaminjoelkennedy.com/latent_space_learning_product.html" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Open the instrument</a>
+    </article>
+    <article class="pub rv">
+      <div class="pub-main">
+        <h3 class="pub-title">Inside a Transformer</h3>
+        <p class="pub-venue">Explainer 02 &middot; From tokens and embeddings to attention and output</p>
+      </div>
+      <a href="https://benjaminjoelkennedy.com/insideatransformer.html" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Open the instrument</a>
+    </article>
+    <article class="pub rv">
+      <div class="pub-main">
+        <h3 class="pub-title">How a Transformer Reads a Sentence</h3>
+        <p class="pub-venue">Companion &middot; An interactive look at attention, token by token</p>
+      </div>
+      <a href="https://benjaminjoelkennedy.com/transformer-attention/" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Open the instrument</a>
+    </article>
+    <article class="pub rv">
+      <div class="pub-main">
+        <h3 class="pub-title">Inside a Spiking Neural Network</h3>
+        <p class="pub-venue">Explainer 03 &middot; Information in the timing of discrete events, and why neuromorphic computing matters</p>
+      </div>
+      <a href="https://benjaminjoelkennedy.com/insideasnn.html" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Open the instrument</a>
+    </article>
+    <article class="pub rv">
+      <div class="pub-main">
+        <h3 class="pub-title">LevyTate Labs on YouTube</h3>
+        <p class="pub-venue">Walkthroughs and films for StratoSort, Rephrame, ODTA, Job Search Desk, RepoSense, Sediment, and ItaSoRL</p>
+      </div>
+      <a href="https://www.youtube.com/@LevyTateLabs" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Visit the channel</a>
+    </article>
+  </div>
+</div></section>
+
 <!-- ABOUT -->
 <section class="section" id="about" aria-labelledby="about-h"><div class="w">
   <h2 id="about-h" class="overline rv">About the Practice</h2>
@@ -574,6 +668,13 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <p>PhD in Artificial Intelligence, Capitol Technology University. Three peer-reviewed publications.</p>
       <p>A decade delivering technology in regulated, PHI-handling environments.</p>
       <p>Current focus: on-device intelligence, cognitive architecture, and privacy-first systems for high-stakes domains.</p>
+      <div class="rc-links" style="margin-top:22px;">
+        <a href="https://benjaminjoelkennedy.com/" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>Personal site</a>
+        <a href="https://www.linkedin.com/in/benjaminjoelkennedy" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>LinkedIn</a>
+        <a href="https://orcid.org/0009-0009-1337-0709" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>ORCID</a>
+        <a href="https://github.com/iLevyTate" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>GitHub</a>
+        <a href="https://www.youtube.com/@LevyTateLabs" target="_blank" rel="noopener" class="pub-lk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>YouTube</a>
+      </div>
     </aside>
   </div>
 </div></section>
@@ -608,6 +709,10 @@ footer { padding:56px 0 48px; border-top:1px solid var(--rule); }
       <a href="/privacy.html">Privacy</a>
       <a href="/terms.html">Terms</a>
       <a href="https://github.com/iLevyTate" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.youtube.com/@LevyTateLabs" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.linkedin.com/in/benjaminjoelkennedy" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://orcid.org/0009-0009-1337-0709" target="_blank" rel="noopener">ORCID</a>
+      <a href="https://benjaminjoelkennedy.com/" target="_blank" rel="noopener">Ben Kennedy</a>
     </div>
   </div>
 </div></footer>
