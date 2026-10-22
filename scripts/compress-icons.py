@@ -3,7 +3,8 @@
 Re-compress every PNG in assets/ and assets/icons/ in place.
 
 Strategy per file:
-  - try palette (P) mode with adaptive quantization (32, 64, 128, 256 colors)
+  - try palette (P) mode with adaptive quantization (16..256 colors); icons with
+    real transparency are quantized as RGBA so the alpha channel survives
   - keep the smallest result that visually round-trips (PSNR within tolerance)
   - never enlarge an already-smaller file
 
@@ -20,18 +21,21 @@ ROOT = Path(__file__).resolve().parent.parent
 
 TARGETS = sorted({
     *ROOT.glob("assets/icons/*.png"),
+    *ROOT.glob("assets/share/*.png"),
     *ROOT.glob("assets/*.png"),
 })
 
-# OG images have gradients; keep RGB
-KEEP_RGB = {"og-image.png", "og-square.png", "logo-source.jpg"}
+# Share cards have gradients and type; keep them RGB
+KEEP_RGB = {"card-1200x630.png", "card-1200x900.png", "card-1200x1200.png"}
 
 
 def psnr(a: Image.Image, b: Image.Image) -> float:
     if a.size != b.size:
         b = b.resize(a.size)
-    a_rgb = a.convert("RGB")
-    b_rgb = b.convert("RGB")
+    # Composite on mid-gray so a lost alpha channel shows up as a real error.
+    gray = Image.new("RGBA", a.size, (128, 128, 128, 255))
+    a_rgb = Image.alpha_composite(gray, a.convert("RGBA")).convert("RGB")
+    b_rgb = Image.alpha_composite(gray, b.convert("RGBA")).convert("RGB")
     pa = a_rgb.load()
     pb = b_rgb.load()
     w, h = a.size
@@ -51,10 +55,13 @@ def psnr(a: Image.Image, b: Image.Image) -> float:
 
 
 def try_palette(img: Image.Image, colors: int) -> bytes:
-    pal = img.convert("RGB").quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE)
-    if "A" in img.mode:
-        pal.info["transparency"] = pal.getpixel((0, 0))
     import io
+    has_alpha = "A" in img.mode and img.getchannel("A").getextrema()[0] < 255
+    if has_alpha:
+        # FASTOCTREE keeps alpha in the palette; MEDIANCUT would drop it.
+        pal = img.convert("RGBA").quantize(colors=colors, method=Image.FASTOCTREE, dither=Image.NONE)
+    else:
+        pal = img.convert("RGB").quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE)
     buf = io.BytesIO()
     pal.save(buf, "PNG", optimize=True)
     return buf.getvalue()

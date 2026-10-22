@@ -141,3 +141,6 @@ vite.config.ts.timestamp-*
 # Python
 __pycache__/
 *.pyc
+
+# Fonts fetched on demand by scripts/generate-icons.py
+scripts/.fonts/
