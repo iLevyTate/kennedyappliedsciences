@@ -1,0 +1,78 @@
+name: Sync to partner site
+
+# Mirrors every change on main into the partner site's repo (named in
+# .github/site-sync.json), swapping the domain and keeping that site's own
+# pages and per-site blocks. The partner repo runs this same workflow, so an
+# edit to either site reaches the other. See scripts/sync-site.py.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # A commit this workflow pushed into the partner must not bounce back.
+    if: ${{ !contains(github.event.head_commit.message, '[site-sync]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Read partner repo
+        id: cfg
+        run: echo "partner=$(jq -r .partner source/.github/site-sync.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Check token
+        env:
+          SITE_SYNC_TOKEN: ${{ secrets.SITE_SYNC_TOKEN }}
+        run: |
+          if [ -z "$SITE_SYNC_TOKEN" ]; then
+            echo "::error::Add a SITE_SYNC_TOKEN secret that can push to ${{ steps.cfg.outputs.partner }} (see README)."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.cfg.outputs.partner }}
+          ref: main
+          path: dest
+          token: ${{ secrets.SITE_SYNC_TOKEN }}
+
+      - name: Sync and push
+        working-directory: dest
+        env:
+          SUBJECT: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          SOURCE="${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+          SUBJECT="$(printf '%s\n' "${SUBJECT:-Manual sync}" | head -n1)"
+
+          for attempt in 1 2 3; do
+            python3 ../source/scripts/sync-site.py ../source .
+            git add -A
+            if git diff --cached --quiet; then
+              echo "Partner site already matches; nothing to sync."
+              exit 0
+            fi
+            git commit -q -m "Sync from ${SOURCE}: ${SUBJECT} [site-sync]"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            # The partner moved on while we worked; start over from its new tip.
+            git fetch origin main
+            git reset -q --hard origin/main
+          done
+          echo "::error::Could not push to the partner repo after 3 attempts."
+          exit 1
